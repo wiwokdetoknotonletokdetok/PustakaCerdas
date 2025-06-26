@@ -1,0 +1,1 @@
+from app.resources.user_recommendations import UserRecommendations

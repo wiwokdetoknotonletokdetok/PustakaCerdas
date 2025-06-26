@@ -2,7 +2,7 @@ from flask import Flask
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 
-from pustakacerdas.config import Config
+from app.config import Config
 
 db = SQLAlchemy()
 
@@ -15,9 +15,9 @@ def create_app():
     api = Api(app)
 
     with app.app_context():
-        from pustakacerdas import models
+        from app import models
 
-    from pustakacerdas.routes import initialize_routes
+    from app.routes import initialize_routes
     initialize_routes(api)
 
     return app

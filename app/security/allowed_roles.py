@@ -1,7 +1,7 @@
 from functools import wraps
 from flask import request
-from pustakacerdas.dto.web_response import WebResponse
-from pustakacerdas.security.jwt_util import decode_jwt
+from app.dto.web_response import WebResponse
+from app.security.jwt_util import decode_jwt
 
 
 def allowed_roles(roles):

@@ -1,4 +1,4 @@
-from pustakacerdas.resources import UserRecommendations
+from app.resources import UserRecommendations
 
 
 def initialize_routes(api):

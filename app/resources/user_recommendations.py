@@ -2,9 +2,9 @@ import uuid
 
 from flask_restful import Resource
 
-from pustakacerdas.dto import WebResponse
-from pustakacerdas.models import User
-from pustakacerdas.security import allowed_roles
+from app.dto import WebResponse
+from app.models import User
+from app.security import allowed_roles
 
 
 class UserRecommendations(Resource):

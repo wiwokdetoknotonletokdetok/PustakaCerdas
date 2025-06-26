@@ -1,6 +1,6 @@
 import jwt
 
-from pustakacerdas.config import Config
+from app.config import Config
 
 
 def decode_jwt(token):

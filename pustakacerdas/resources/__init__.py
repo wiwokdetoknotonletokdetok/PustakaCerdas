@@ -1,1 +1,0 @@
-from pustakacerdas.resources.user_recommendations import UserRecommendations
