@@ -4,5 +4,6 @@ Flask-SQLAlchemy
 gunicorn
 psycopg2-binary
 pydantic
+pyjwt
 python-dotenv
 SQLAlchemy
