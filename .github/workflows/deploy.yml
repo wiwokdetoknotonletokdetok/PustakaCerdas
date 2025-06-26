@@ -1,0 +1,69 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t pustakacerdas:latest .
+
+      - name: Save Docker image to file
+        run: docker save pustakacerdas:latest -o pustakacerdas.tar
+
+      - name: Create .env file from secrets
+        run: |
+          cat <<EOF > .env
+          DB_NAME=${{ secrets.DB_NAME }}
+          DB_USERNAME=${{ secrets.DB_USERNAME }}
+          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+          DB_HOST=${{ secrets.DB_HOST }}
+          DB_PORT=${{ secrets.DB_PORT }}
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          FLASK_DEBUG=${{ secrets.FLASK_DEBUG }}
+          EOF
+
+      - name: Prepare deploy files
+        run: |
+          mkdir pustakacerdas
+          mv pustakacerdas.tar .env pustakacerdas/
+
+      - name: Copy Docker image and .env to server
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "pustakacerdas/*"
+          target: "~/"
+
+      - name: Deploy on remote server
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd ~/pustakacerdas
+
+            docker stop pustakacerdas || true
+            docker rm pustakacerdas || true
+
+            docker load -i pustakacerdas.tar
+
+            docker run -d \
+              --name pustakacerdas \
+              --env-file ~/pustakacerdas/.env \
+              -p 5000:5000 \
+              pustakacerdas:latest
