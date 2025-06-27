@@ -59,6 +59,7 @@ jobs:
 
             docker stop pustakacerdas || true
             docker rm pustakacerdas || true
+            docker rmi pustakacerdas:latest || true
 
             docker load -i pustakacerdas.tar
 
