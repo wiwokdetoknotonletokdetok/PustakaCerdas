@@ -1,9 +1,6 @@
-import uuid
-
 from flask_restful import Resource
 
 from app.dto import WebResponse
-from app.models import User
 from app.security import allowed_roles
 
 
@@ -13,23 +10,5 @@ class UserRecommendations(Resource):
     def get(self, payload):
         user_id = payload.get("sub")
 
-        user = get_user(user_id)
-
-        response = WebResponse.builder().data(user.name).build()
+        response = WebResponse.builder().data(user_id).build()
         return response.dict(), 200
-
-
-def get_user(user_id):
-    try:
-        user_uuid = uuid.UUID(user_id)
-    except ValueError:
-        response = WebResponse.builder().errors("User tidak ditemukan").build()
-        return response.dict(), 404
-
-    user = User.query.get(user_uuid)
-
-    if not user:
-        response = WebResponse.builder().errors("User tidak ditemukan").build()
-        return response.dict(), 404
-
-    return user

@@ -1,5 +1,7 @@
 from functools import wraps
+
 from flask import request
+
 from app.dto.web_response import WebResponse
 from app.security.jwt_util import decode_jwt
 
