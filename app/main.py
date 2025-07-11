@@ -1,5 +1,6 @@
-from app.controller import book_router
 from fastapi import FastAPI
+
+from app.controller import book_router
 
 app = FastAPI()
 
