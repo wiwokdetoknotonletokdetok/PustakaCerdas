@@ -25,13 +25,13 @@ jobs:
       - name: Create .env file from secrets
         run: |
           cat <<EOF > .env
-          DB_NAME=${{ secrets.DB_NAME }}
-          DB_USERNAME=${{ secrets.DB_USERNAME }}
-          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-          DB_HOST=${{ secrets.DB_HOST }}
-          DB_PORT=${{ secrets.DB_PORT }}
-          JWT_SECRET=${{ secrets.JWT_SECRET }}
-          FLASK_DEBUG=${{ secrets.FLASK_DEBUG }}
+          QDRANT_API_KEY=${{ secrets.QDRANT_API_KEY }}
+          QDRANT_GRPC_HOST=${{ secrets.QDRANT_GRPC_HOST }}
+          QDRANT_GRPC_PORT=${{ secrets.QDRANT_GRPC_PORT }}
+          RABBITMQ_HOST=${{ secrets.RABBITMQ_HOST }}
+          RABBITMQ_PORT=${{ secrets.RABBITMQ_PORT }}
+          RABBITMQ_USER=${{ secrets.RABBITMQ_USER }}
+          RABBITMQ_PASS=${{ secrets.RABBITMQ_PASS }}
           EOF
 
       - name: Prepare deploy files
@@ -66,5 +66,5 @@ jobs:
             docker run -d \
               --name pustakacerdas \
               --env-file ~/pustakacerdas/.env \
-              -p 5000:5000 \
+              -p 8000:8000 \
               pustakacerdas:latest

@@ -1,9 +1,4 @@
-Flask
-Flask-RESTful
-Flask-SQLAlchemy
-gunicorn
-psycopg2-binary
+fastapi
+uvicorn
 pydantic
-pyjwt
-python-dotenv
-SQLAlchemy
+pydantic_settings
