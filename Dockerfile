@@ -6,8 +6,6 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir --prefix=/install -r requirements.txt && \
     find /install -name "*.pyc" -exec rm -f {} \;
 
-RUN python download_model.py
-
 FROM python:3.12-slim
 
 RUN useradd -m -r appuser && \
