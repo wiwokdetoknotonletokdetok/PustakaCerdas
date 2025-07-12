@@ -8,6 +8,6 @@ router = APIRouter()
 
 @router.get("/books")
 def get_books(q: str = Query(None)):
-    print(get_query_embedding(q))
-    response = WebResponse.builder().data("OK").build()
+    vector = get_query_embedding(q)
+    response = WebResponse.builder().data(vector).build()
     return response.dict()
