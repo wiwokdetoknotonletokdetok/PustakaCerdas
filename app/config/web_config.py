@@ -9,6 +9,8 @@ class Settings(BaseSettings):
     rabbitmq_port: int
     rabbitmq_user: str
     rabbitmq_pass: str
+    model_name: str
+    model_device: str
 
     class Config:
         env_file = ".env"

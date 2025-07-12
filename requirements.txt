@@ -4,4 +4,3 @@ pydantic
 pydantic_settings
 qdrant-client
 sentence-transformers
-torch==2.1.0+cpu
