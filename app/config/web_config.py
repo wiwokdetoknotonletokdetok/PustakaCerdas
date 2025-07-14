@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     rabbitmq_pass: str
     model_name: str
     model_device: str
+    collection_name: str = "book"
 
     @property
     def rabbitmq_url(self):
