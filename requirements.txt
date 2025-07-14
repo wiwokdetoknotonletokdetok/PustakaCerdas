@@ -4,3 +4,4 @@ pydantic
 pydantic_settings
 qdrant-client
 sentence-transformers
+aio_pika

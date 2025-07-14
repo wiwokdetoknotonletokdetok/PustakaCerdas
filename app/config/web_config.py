@@ -12,6 +12,10 @@ class Settings(BaseSettings):
     model_name: str
     model_device: str
 
+    @property
+    def rabbitmq_url(self):
+        return f"amqp://{self.rabbitmq_user}:{self.rabbitmq_pass}@{self.rabbitmq_host}:{self.rabbitmq_port}/"
+
     class Config:
         env_file = ".env"
 
