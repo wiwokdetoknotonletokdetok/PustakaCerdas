@@ -16,7 +16,7 @@ async def handle_book_message(message: IncomingMessage):
         save_new_book(book_message)
 
 
-async def book_added_listener():
+async def book_added_consumer():
     connection = await connect_robust(settings.rabbitmq_url)
     channel = await connection.channel()
 
@@ -24,7 +24,7 @@ async def book_added_listener():
     await queue.consume(handle_book_message)
 
 
-async def book_updated_listener():
+async def book_updated_consumer():
     connection = await connect_robust(settings.rabbitmq_url)
     channel = await connection.channel()
 
