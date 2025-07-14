@@ -5,14 +5,14 @@ from app.dto import AmqpBookMessage, BookPayload
 from app.services.embedding_service import get_passage_embedding, get_query_embedding
 
 
-def save_new_book(message: AmqpBookMessage):
+def save_book(message: AmqpBookMessage):
     passage = get_passage_embedding(f"{message.title}. {message.synopsis}")
 
     book_payload = BookPayload(**message.dict())
 
     qdrant.upsert(
         collection_name=settings.collection_name,
-        points=[PointStruct(id=message.id, vector=passage, payload=book_payload.dict())]
+        points=[PointStruct(id=str(message.id), vector=passage, payload=book_payload.dict())]
     )
 
 
