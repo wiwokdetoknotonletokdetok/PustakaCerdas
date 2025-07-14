@@ -1,11 +1,11 @@
-import re
 from uuid import UUID
 
 from pydantic import BaseModel
 
 
-def to_snake_case(string: str) -> str:
-    return re.sub(r'(?<!^)(?=[A-Z])', '_', string).lower()
+def to_camel(string: str) -> str:
+    parts = string.split('_')
+    return parts[0] + ''.join(word.capitalize() for word in parts[1:])
 
 
 class AmqpBookMessage(BaseModel):
@@ -16,5 +16,5 @@ class AmqpBookMessage(BaseModel):
     created_by: UUID
 
     class Config:
-        alias_generator = to_snake_case
+        alias_generator = to_camel
         validate_by_name = True
