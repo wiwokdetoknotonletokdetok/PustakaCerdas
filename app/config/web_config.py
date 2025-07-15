@@ -9,8 +9,8 @@ class Settings(BaseSettings):
     rabbitmq_port: int
     rabbitmq_user: str
     rabbitmq_pass: str
-    model_name: str
-    model_device: str
+    model_name: str = "intfloat/multilingual-e5-small"
+    model_device: str = "cpu"
     collection_name: str = "book"
 
     @property
