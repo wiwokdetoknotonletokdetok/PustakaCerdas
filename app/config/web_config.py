@@ -9,6 +9,13 @@ class Settings(BaseSettings):
     rabbitmq_port: int
     rabbitmq_user: str
     rabbitmq_pass: str
+    model_name: str = "intfloat/multilingual-e5-small"
+    model_device: str = "cpu"
+    collection_name: str = "book"
+
+    @property
+    def rabbitmq_url(self):
+        return f"amqp://{self.rabbitmq_user}:{self.rabbitmq_pass}@{self.rabbitmq_host}:{self.rabbitmq_port}/"
 
     class Config:
         env_file = ".env"

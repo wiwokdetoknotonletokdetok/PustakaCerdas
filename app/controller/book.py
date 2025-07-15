@@ -1,13 +1,12 @@
 from fastapi import APIRouter, Query
 
 from app.dto import WebResponse
-from app.services.embedding_service import get_query_embedding
+from app.services import search_book
 
 router = APIRouter()
 
 
 @router.get("/books")
 def get_books(q: str = Query(None)):
-    vector = get_query_embedding(q)
-    response = WebResponse.builder().data(vector).build()
+    response = WebResponse.builder().data(search_book(q)).build()
     return response.dict()

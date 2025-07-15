@@ -1,14 +1,14 @@
 from sentence_transformers import SentenceTransformer
+from app.config import settings
 
 
 class EmbeddingModel:
     _instance = None
-    _model_name = "intfloat/multilingual-e5-small"
 
     @classmethod
     def get_model(cls):
         if cls._instance is None:
-            cls._instance = SentenceTransformer(cls._model_name)
+            cls._instance = SentenceTransformer(settings.model_name, device=settings.model_device)
         return cls._instance
 
 

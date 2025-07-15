@@ -4,4 +4,7 @@ pydantic
 pydantic_settings
 qdrant-client
 sentence-transformers
-torch==2.1.0+cpu
+aio_pika
+torch==2.2.2+cpu
+
+-f https://download.pytorch.org/whl/torch_stable.html
