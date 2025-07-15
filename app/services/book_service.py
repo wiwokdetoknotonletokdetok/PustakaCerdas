@@ -2,11 +2,11 @@ from qdrant_client.models import PointStruct
 
 from app.config import qdrant, settings
 from app.dto import AmqpBookMessage, BookPayload
-from app.services.embedding_service import get_passage_embedding, get_query_embedding
+from app.services.embedding_service import get_embedding
 
 
 def save_book(message: AmqpBookMessage):
-    passage = get_passage_embedding(f"{message.title}. {message.synopsis}")
+    passage = get_embedding(f"{message.title}. {message.synopsis}")
 
     book_payload = BookPayload(**message.dict())
 
@@ -17,7 +17,7 @@ def save_book(message: AmqpBookMessage):
 
 
 def search_book(query: str, top_k: int = 5, score_threshold: float = 0.80) -> list[BookPayload]:
-    query_vector = get_query_embedding(query)
+    query_vector = get_embedding(query)
 
     search_result = qdrant.search(
         collection_name=settings.collection_name,
