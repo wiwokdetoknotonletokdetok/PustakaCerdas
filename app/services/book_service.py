@@ -16,7 +16,7 @@ def save_book(message: AmqpBookMessage):
     )
 
 
-def search_book(query: str, top_k: int = 5, score_threshold: float = 0.80) -> list[BookPayload]:
+def search_book(query: str, top_k: int = 5, score_threshold: float = 0.70) -> list[BookPayload]:
     query_vector = get_embedding(query)
 
     search_result = qdrant.search(
