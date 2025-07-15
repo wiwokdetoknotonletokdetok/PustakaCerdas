@@ -7,6 +7,6 @@ router = APIRouter()
 
 
 @router.get("/books")
-def get_books(q: str = Query(None), max: int = Query(None), threshold: float = Query(None)):
+def get_books(q: str = Query(None), max: int = Query(5), threshold: float = Query(0.40)):
     response = WebResponse.builder().data(search_book(q, max, threshold)).build()
     return response.dict()
