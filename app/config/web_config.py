@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     rabbitmq_port: int
     rabbitmq_user: str
     rabbitmq_pass: str
-    model_name: str = "intfloat/multilingual-e5-small"
+    model_name: str = "all-MiniLM-L6-v2"
     model_device: str = "cpu"
     collection_name: str = "book"
 

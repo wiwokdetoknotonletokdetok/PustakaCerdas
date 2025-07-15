@@ -12,16 +12,7 @@ class EmbeddingModel:
         return cls._instance
 
 
-def get_query_embedding(text: str) -> list:
-    return _get_embedding(text, "query")
-
-
-def get_passage_embedding(text: str) -> list:
-    return _get_embedding(text, "passage")
-
-
-def _get_embedding(text: str, mode: str) -> list:
+def get_embedding(text: str) -> list:
     model = EmbeddingModel.get_model()
-    formatted = f"{mode}: {text.strip()}"
-    embedding = model.encode(formatted, normalize_embeddings=True)
+    embedding = model.encode(text, normalize_embeddings=True)
     return embedding.tolist()
