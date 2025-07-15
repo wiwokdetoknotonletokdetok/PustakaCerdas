@@ -16,24 +16,26 @@ def save_book(message: AmqpBookMessage):
     )
 
 
-def search_book(query: str, top_k: int = 5) -> list[BookPayload]:
+def search_book(query: str, top_k: int = 5, score_threshold: float = 0.80) -> list[BookPayload]:
     query_vector = get_query_embedding(query)
 
     search_result = qdrant.search(
         collection_name=settings.collection_name,
         query_vector=query_vector,
         limit=top_k,
-        with_payload=True
+        with_payload=True,
+        with_vectors=False
     )
 
     books: list[BookPayload] = []
 
     for point in search_result:
-        payload = point.payload
-        try:
-            book = BookPayload(**payload)
-            books.append(book)
-        except Exception as e:
-            print(f"Payload error: {e}, data: {payload}")
+        if point.score is not None and point.score >= score_threshold:
+            payload = point.payload
+            try:
+                book = BookPayload(**payload)
+                books.append(book)
+            except Exception as e:
+                print(f"Payload error: {e}, data: {payload}")
 
     return books
