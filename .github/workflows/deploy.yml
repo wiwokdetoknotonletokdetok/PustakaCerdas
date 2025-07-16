@@ -34,7 +34,7 @@ jobs:
       - name: Prepare deploy files
         run: |
           mkdir pustakacerdas
-          mv pustakacerdas.tar .env pustakacerdas/
+          mv pustakacerdas.tar .env docker-compose.yml pustakacerdas/
 
       - name: Copy Docker image and .env to server
         uses: appleboy/scp-action@v0.1.4
@@ -54,14 +54,10 @@ jobs:
           script: |
             cd ~/pustakacerdas
 
-            docker stop pustakacerdas || true
-            docker rm pustakacerdas || true
+            docker-compose down || true
             docker rmi pustakacerdas:latest || true
-
+            
             docker load -i pustakacerdas.tar
-
-            docker run -d \
-              --name pustakacerdas \
-              --env-file ~/pustakacerdas/.env \
-              -p 8000:8000 \
-              pustakacerdas:latest
+            rm pustakacerdas.tar
+            
+            docker-compose up -d
