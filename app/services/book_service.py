@@ -1,3 +1,5 @@
+import asyncio
+
 from qdrant_client.models import PointStruct
 
 from app.config import qdrant, settings
@@ -5,14 +7,26 @@ from app.dto import AmqpBookMessage, BookPayload
 from app.services.embedding_service import get_embedding
 
 
-def save_book(message: AmqpBookMessage):
-    passage = get_embedding(f"{message.title}. {message.synopsis}")
+async def save_book(message: AmqpBookMessage):
+    passage = await asyncio.to_thread(get_embedding, f"{message.title}. {message.synopsis}")
 
     book_payload = BookPayload(**message.dict())
 
-    qdrant.upsert(
+    await asyncio.to_thread(
+        qdrant.upsert,
         collection_name=settings.collection_name,
-        points=[PointStruct(id=str(message.id), vector=passage, payload=book_payload.dict())]
+        points=[PointStruct(id=message.id, vector=passage, payload=book_payload.dict())]
+    )
+
+
+async def update_book_payload(message: AmqpBookMessage):
+    new_payload = BookPayload(**message.dict())
+
+    await asyncio.to_thread(
+        qdrant.overwrite_payload,
+        collection_name=settings.collection_name,
+        points=[message.id],
+        payload=new_payload.dict()
     )
 
 
