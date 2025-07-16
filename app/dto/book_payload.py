@@ -2,6 +2,6 @@ from pydantic import BaseModel
 
 
 class BookPayload(BaseModel):
+    id: str
     title: str
-    synopsis: str
-    book_picture: str
+    bookPicture: str
