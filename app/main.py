@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import setup_database
 from app.consumer import setup_consumer
@@ -6,6 +7,13 @@ from app.controller import book_router
 from app.controller import recommendation_router
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_methods=["GET"],
+    allow_headers=["Content-Type"],
+)
 
 app.include_router(book_router)
 app.include_router(recommendation_router)
