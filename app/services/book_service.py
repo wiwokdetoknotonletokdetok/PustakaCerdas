@@ -14,7 +14,7 @@ async def save_book(message: AmqpBookMessage):
 
     await asyncio.to_thread(
         qdrant.upsert,
-        collection_name=settings.collection_name,
+        collection_name=settings.book_collection,
         points=[PointStruct(id=message.id, vector=passage, payload=book_payload.dict())]
     )
 
@@ -24,7 +24,7 @@ async def update_book_payload(message: AmqpBookMessage):
 
     await asyncio.to_thread(
         qdrant.overwrite_payload,
-        collection_name=settings.collection_name,
+        collection_name=settings.book_collection,
         points=[message.id],
         payload=new_payload.dict()
     )
@@ -34,7 +34,7 @@ def search_book(query: str, top_k: int, score_threshold: float) -> list[BookPayl
     query_vector = get_embedding(query)
 
     search_result = qdrant.search(
-        collection_name=settings.collection_name,
+        collection_name=settings.book_collection,
         query_vector=query_vector,
         limit=top_k,
         with_payload=True,

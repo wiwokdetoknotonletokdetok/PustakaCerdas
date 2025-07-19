@@ -11,7 +11,11 @@ class Settings(BaseSettings):
     rabbitmq_pass: str
     model_name: str = "all-MiniLM-L6-v2"
     model_device: str = "cpu"
-    collection_name: str = "book"
+    book_collection: str = "book"
+    user_collection: str = "user"
+    embedding_dimension: int = 384
+    jwt_secret: str
+    jwt_algorithm: str = "HS256"
 
     @property
     def rabbitmq_url(self):
