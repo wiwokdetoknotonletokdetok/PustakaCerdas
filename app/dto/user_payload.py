@@ -1,5 +1,7 @@
+from typing import Optional, List
+
 from pydantic import BaseModel
 
 
 class UserPayload(BaseModel):
-    bookCount: int
+    short_term_ids: Optional[List[str]] = None

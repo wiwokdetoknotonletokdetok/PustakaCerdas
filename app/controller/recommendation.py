@@ -17,7 +17,7 @@ def get_books_recommendations(limit: int = Query(5), user_id: Optional[str] = De
     return JSONResponse(status_code=200, content=response.dict())
 
 
-@router.delete("/recommendations/books/reset")
+@router.delete("/recommendations/books")
 def reset_books_recommendations(user_id: Optional[str] = Depends(get_user_id_from_token)):
     if not user_id:
         response = WebResponse.builder().errors("Unauthorized").build()
