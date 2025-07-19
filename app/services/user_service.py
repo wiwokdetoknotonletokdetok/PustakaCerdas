@@ -8,22 +8,25 @@ from app.dto import AmqpUserRegisteredMessage, AmqpUserBookViewMessage
 from app.dto.user_payload import UserPayload
 
 
-async def save_user(message: AmqpUserRegisteredMessage):
+def init_user_embedding(user_id: str):
     initial_vector = np.zeros(settings.embedding_dimension, dtype=np.float32).tolist()
 
     user_payload = UserPayload(bookCount=0)
 
-    await asyncio.to_thread(
-        qdrant.upsert,
+    qdrant.upsert(
         collection_name=settings.user_collection,
         points=[
             PointStruct(
-                id=message.userId,
+                id=user_id,
                 vector=initial_vector,
                 payload=user_payload.dict()
             )
         ]
     )
+
+
+async def save_user(message: AmqpUserRegisteredMessage):
+    await asyncio.to_thread(init_user_embedding, message.userId)
 
 
 async def update_user_embedding(message: AmqpUserBookViewMessage):
