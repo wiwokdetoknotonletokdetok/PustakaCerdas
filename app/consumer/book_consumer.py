@@ -15,7 +15,7 @@ async def handle_book_message(message: IncomingMessage):
         data = json.loads(raw_body)
         book_message = AmqpBookMessage.parse_obj(data)
 
-        if routing_key == "book.added":
+        if routing_key == "book.created":
             await save_book(book_message)
         elif routing_key == "book.picture.added":
             await update_book_payload(book_message)

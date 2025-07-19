@@ -13,16 +13,16 @@ async def handle_user_message(message: IncomingMessage):
         raw_body = message.body.decode()
         data = json.loads(raw_body)
 
-        if routing_key == "user.registered":
+        if routing_key == "user.activity.registered":
             user_registered_message = AmqpUserRegisteredMessage.parse_obj(data)
             await save_user(user_registered_message)
-        elif routing_key == "user.book.view":
+        elif routing_key == "user.activity.book.view":
             user_book_view_message = AmqpUserBookViewMessage.parse_obj(data)
             await update_user_embedding(user_book_view_message)
 
 
 async def user_consumer():
-    QUEUE_USER = "pustakacerdas.user.queue"
+    QUEUE_USER = "pustakacerdas.user.activity.queue"
 
     connection = await connect_robust(settings.rabbitmq_url)
     channel = await connection.channel()
