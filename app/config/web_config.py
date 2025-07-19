@@ -16,6 +16,8 @@ class Settings(BaseSettings):
     embedding_dimension: int = 384
     jwt_secret: str
     jwt_algorithm: str = "HS256"
+    cors_allowed_origins: str
+    cors_allowed_headers: str
 
     @property
     def rabbitmq_url(self):
