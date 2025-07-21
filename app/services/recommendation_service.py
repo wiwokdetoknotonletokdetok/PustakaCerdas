@@ -50,13 +50,16 @@ def get_book_recommendations(user_id: str, top_k: int):
             query_filter=query_filter
         )
     else:
-        all_result = qdrant.scroll(
+        vector = normalize_vector(np.random.rand(settings.embedding_dimension).tolist())
+
+        search_result = qdrant.search(
             collection_name=settings.book_collection,
+            query_vector=vector,
             limit=top_k,
             with_payload=True,
-            with_vectors=False
+            with_vectors=False,
+            query_filter=query_filter
         )
-        search_result = all_result[0]
 
     books: list[BookPayload] = []
 
